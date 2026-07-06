@@ -1,0 +1,9 @@
+services:
+  adguardhome:
+    image: adguard/adguardhome:beta
+    restart: unless-stopped
+    volumes:
+      - ./conf:/opt/adguardhome/conf
+      - ./work:/opt/adguardhome/work
+    network_mode: host
+    user: "${UID}:${GID}"

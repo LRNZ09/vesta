@@ -1,0 +1,11 @@
+# DNSCrypt inbound server keys for AdGuard Home.
+# The real dnscrypt.yaml holds live private key material and is gitignored;
+# copy this file to dnscrypt.yaml and fill in your own values (AdGuard can
+# generate a keypair for you, or use `dnscrypt-server-keygen`).
+provider_name: 2.dnscrypt-cert.<your-provider>.example
+public_key: ""
+private_key: ""
+resolver_secret: ""
+resolver_public: ""
+es_version: 1
+certificate_ttl: 0s
