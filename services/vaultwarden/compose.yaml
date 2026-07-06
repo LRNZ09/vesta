@@ -1,0 +1,28 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.36.0-alpine
+    restart: unless-stopped
+    user: "${UID}:${GID}"
+
+    networks:
+      - traefik
+
+    volumes:
+      - ./data:/data
+
+    environment:
+      ADMIN_TOKEN: ${VAULTWARDEN_ADMIN_TOKEN} # secret, from .env
+      DOMAIN: "https://vaultwarden.admin.lorenzopieri.dev" # full https URL required
+      SIGNUPS_ALLOWED: "false"
+      WEBSOCKET_ENABLED: "true"
+
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.vaultwarden.rule: Host(`vaultwarden.admin.lorenzopieri.dev`)
+      traefik.http.routers.vaultwarden.entrypoints: websecure
+      traefik.http.routers.vaultwarden.tls: "true"
+      traefik.http.services.vaultwarden.loadbalancer.server.port: "80"
+
+networks:
+  traefik:
+    external: true
