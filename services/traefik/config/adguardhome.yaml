@@ -1,0 +1,17 @@
+# AdGuard Home runs in host mode, so it is NOT on the traefik bridge and cannot
+# be discovered by Docker labels. It binds its admin UI to the traefik bridge
+# gateway (172.50.0.1:3080), reachable only from containers on that bridge, so
+# route to it there. AdGuard Home's admin UI must be set to 172.50.0.1:3080.
+http:
+  routers:
+    adguardhome:
+      rule: "Host(`adguardhome.admin.lorenzopieri.dev`)"
+      entryPoints:
+        - websecure
+      service: adguardhome
+      tls: {}
+  services:
+    adguardhome:
+      loadBalancer:
+        servers:
+          - url: "http://172.50.0.1:3080"

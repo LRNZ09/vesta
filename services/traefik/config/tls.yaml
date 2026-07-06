@@ -1,0 +1,11 @@
+# Default generated wildcard cert via the Cloudflare DNS-01 resolver.
+# With this default in place, routers need only `tls: "true"` to serve it.
+tls:
+  stores:
+    default:
+      defaultGeneratedCert:
+        resolver: le
+        domain:
+          main: "admin.lorenzopieri.dev"
+          sans:
+            - "*.admin.lorenzopieri.dev"

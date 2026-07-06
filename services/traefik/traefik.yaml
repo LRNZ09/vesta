@@ -1,0 +1,49 @@
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    http:
+      tls:
+        certResolver: le
+        domains:
+          - main: "admin.lorenzopieri.dev"
+            sans:
+              - "*.admin.lorenzopieri.dev"
+      middlewares:
+        - lan-only@file
+
+certificatesResolvers:
+  le:
+    acme:
+      email: admin@lorenzopieri.dev
+      storage: /le/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: traefik
+  file:
+    directory: /config
+    watch: true
+
+api:
+  dashboard: true
+  disabledashboardad: true
+
+log:
+  level: DEBUG
+
+accessLog:
+  filters:
+    retryAttempts: true

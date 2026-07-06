@@ -1,0 +1,13 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.admin.lorenzopieri.dev`)"
+      entryPoints:
+        - websecure
+      service: api@internal      
+      tls:
+        certResolver: le
+        domains:
+          - main: "admin.lorenzopieri.dev"
+            sans:
+              - "*.admin.lorenzopieri.dev"
