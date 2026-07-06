@@ -1,0 +1,39 @@
+services:
+  jdownloader-2:
+    image: jlesage/jdownloader-2:v26.03.1
+    restart: unless-stopped
+
+    expose:
+      - 3129
+      - 5800
+
+    volumes:
+      - ./config:/config
+      - ./output:/output
+
+    environment:
+      # jlesage images drop privileges to these instead of the compose `user:`
+      USER_ID: ${UID}
+      GROUP_ID: ${GID}
+      DARK_MODE: 1
+      ENABLE_CJK_FONT: 1
+      SECURE_CONNECTION: 1
+      VNC_LISTENING_PORT: -1
+      WEB_AUTHENTICATION: 1
+      # WEB_AUTHENTICATION_USERNAME: LRNZ09
+
+    networks:
+      - traefik
+
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.jdownloader-2.rule: Host(`jdownloader-2.admin.lorenzopieri.dev`)
+      traefik.http.routers.jdownloader-2.entrypoints: websecure
+      traefik.http.routers.jdownloader-2.tls: "true"
+      traefik.http.services.jdownloader-2.loadbalancer.server.scheme: https
+      traefik.http.services.jdownloader-2.loadbalancer.server.port: "5800"
+      traefik.http.services.jdownloader-2.loadbalancer.serverstransport: insecure-https-transport@file
+
+networks:
+  traefik:
+    external: true

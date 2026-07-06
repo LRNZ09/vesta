@@ -1,0 +1,29 @@
+# =========================
+# Allow specific JDownloader config JSONs
+# =========================
+
+# Root
+!.gitignore
+
+# UI / general behavior
+!cfg/
+cfg/*
+!cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json
+!cfg/org.jdownloader.settings.GeneralSettings.json
+
+# Download behavior
+!cfg/org.jdownloader.settings.DownloadControllerSettings.json
+!cfg/org.jdownloader.settings.DownloadLinkConfiguration.json
+
+# Accounts (optional, risky)
+!cfg/accounts*.json
+
+# =========================
+# Still ignore everything else runtime-related
+# =========================
+linkcollector/
+downloads/
+logs/
+tmp/
+update/
+extensions/
