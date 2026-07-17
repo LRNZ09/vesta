@@ -1,6 +1,6 @@
 services:
   jdownloader-2:
-    image: jlesage/jdownloader-2:v26.03.1
+    image: jlesage/jdownloader-2:v26.07.2
     restart: unless-stopped
 
     expose:
@@ -12,7 +12,10 @@ services:
       - ./output:/output
 
     environment:
-      # jlesage images drop privileges to these instead of the compose `user:`
+      # jlesage starts as root, runs its init scripts, then drops the app itself
+      # to USER_ID:GROUP_ID (X server, nginx and JDownloader all run as this uid,
+      # never root). A compose `user:` can't replace this: 10-init-users.sh must
+      # `chown /etc/shadow`, which needs CAP_CHOWN a non-root process can't have.
       USER_ID: ${UID}
       GROUP_ID: ${GID}
       DARK_MODE: 1
