@@ -103,6 +103,12 @@ API tokens (Traefik DNS-01) and the Vaultwarden admin token. In addition:
 The only environment specifics committed are an RFC 1918 subnet and the public
 service domain (already in Certificate Transparency logs).
 
+## Secret scanning
+
+- Pre-commit hook (`.githooks/pre-commit`) runs `gitleaks` on staged changes.
+  Enable per clone: `git config core.hooksPath .githooks` (needs `gitleaks`).
+- CI (`.github/workflows/gitleaks.yml`) scans every push and PR.
+
 ## License
 
-[MIT](./LICENSE).
+MIT — see [LICENSE](LICENSE).
