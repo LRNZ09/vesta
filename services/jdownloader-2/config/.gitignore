@@ -1,29 +1,24 @@
 # =========================
-# Allow specific JDownloader config JSONs
+# Ignore EVERYTHING in this runtime config dir by default, then whitelist
+# only the specific JDownloader settings we want in git.
+#
+# The leading `*` is load-bearing: without it, none of the `!` negations
+# below do anything, and JDownloader's runtime files (Core.jar, jd/, log/,
+# certs/, webauth-htpasswd, @eaDir/, ...) get left untracked-but-not-ignored.
 # =========================
+*
 
-# Root
+# Keep this ignore file itself
 !.gitignore
 
-# UI / general behavior
+# Descend into cfg/, ignore its contents, then re-include specific JSONs
 !cfg/
 cfg/*
+
+# UI / general behavior
 !cfg/org.jdownloader.settings.GraphicalUserInterfaceSettings.json
 !cfg/org.jdownloader.settings.GeneralSettings.json
 
 # Download behavior
 !cfg/org.jdownloader.settings.DownloadControllerSettings.json
 !cfg/org.jdownloader.settings.DownloadLinkConfiguration.json
-
-# Accounts (optional, risky)
-!cfg/accounts*.json
-
-# =========================
-# Still ignore everything else runtime-related
-# =========================
-linkcollector/
-downloads/
-logs/
-tmp/
-update/
-extensions/
