@@ -6,3 +6,6 @@
 # Local noise
 *.log
 .DS_Store
+
+# Synology NAS thumbnail/index metadata (appears anywhere on the volume)
+@eaDir/
