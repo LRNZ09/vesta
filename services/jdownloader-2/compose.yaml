@@ -3,9 +3,8 @@ services:
     image: jlesage/jdownloader-2:v26.07.2
     restart: unless-stopped
 
-    expose:
-      - 3129
-      - 5800
+    ports:
+      - "3129:3129"
 
     volumes:
       - ./config:/config
