@@ -24,6 +24,7 @@ services:
       WEB_AUTHENTICATION: 1
       WEB_NOTIFICATION: 1
       # WEB_AUTHENTICATION_USERNAME: LRNZ09
+      # WEB_AUTHENTICATION_PASSWORD: ${JDOWNLOADER_2_WEB_AUTHENTICATION_PASSWORD} # secret, from .env
 
     networks:
       - traefik
