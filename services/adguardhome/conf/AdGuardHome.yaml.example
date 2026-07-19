@@ -13,7 +13,9 @@ http:
   session_ttl: 30d
 users:
   - name: LRNZ09
-    # Redacted for the public repo — set a real bcrypt hash before deploying:
+    # Scaffold for the public repo. Copy this file to AdGuardHome.yaml
+    # (gitignored) and set a real bcrypt hash before deploying — container
+    # stopped, since AdGuard overwrites the file while running:
     #   htpasswd -B -n -b <user> <password>   (keep the part after the colon)
     password: ""
 auth_attempts: 5
@@ -169,11 +171,12 @@ filtering:
     - domain: admin.lorenzopieri.dev
       answer: 192.168.50.254
       enabled: true
-    - domain: "*.admin.lorenzopieri.dev"
+    - domain: '*.admin.lorenzopieri.dev'
       answer: 192.168.50.254
       enabled: true
   safe_fs_patterns:
     - /opt/adguardhome/work/userfilters/*
+  max_http_size: 256MB
   safebrowsing_cache_size: 1048576
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576

@@ -2,6 +2,11 @@
 # history), stats, sessions, downloaded filter lists. Never commit.
 work/
 
+# Live runtime config — AdGuard rewrites this at runtime and it holds the admin
+# bcrypt hash. Keep local; a redacted scaffold is committed as
+# conf/AdGuardHome.yaml.example.
+conf/AdGuardHome.yaml
+
 # DNSCrypt server keys — live private key material. Keep local; a redacted
 # scaffold is committed as conf/dnscrypt.yaml.example.
 conf/dnscrypt.yaml

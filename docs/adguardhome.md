@@ -26,8 +26,11 @@ recreate does **not** disturb DNS — see `architecture.md`.
   (`port_dnscrypt: 0`). To enable it, provide `conf/dnscrypt.yaml` — live private
   key material, so it is **gitignored**; a redacted `conf/dnscrypt.yaml.example`
   is committed as a scaffold to copy and fill in.
-- The admin password hash in `conf/AdGuardHome.yaml` is **redacted** in git; set
-  a real one before deploying (`htpasswd -B -n -b <user> <password>`).
+- The full config is committed as a redacted scaffold,
+  `conf/AdGuardHome.yaml.example`; the **live `conf/AdGuardHome.yaml` is
+  gitignored** — AdGuard rewrites it at runtime and it holds the admin bcrypt
+  hash. Copy the scaffold and set a real hash before deploying
+  (`htpasswd -B -n -b <user> <password>`), with the container stopped.
 
 ## DNS rewrites
 
@@ -60,12 +63,16 @@ resolver clients use — not `.254`.
 
 ## First-run setup
 
-On a fresh deploy (no restored `conf/`), run AdGuard's setup wizard and:
+On a fresh deploy, seed the live config from the committed scaffold — with the
+container stopped, since AdGuard overwrites the file while running:
 
-1. Set the **admin web interface** to bind `172.50.0.1:3080` (so only Traefik
-   reaches it) and keep **DNS on `:53`**.
-2. Re-add the rewrites above (`*.admin.lorenzopieri.dev → 192.168.50.254`).
+1. `cp conf/AdGuardHome.yaml.example conf/AdGuardHome.yaml`
+2. Set a real admin hash in `users[].password`
+   (`htpasswd -B -n -b <user> <password>` — keep the part after the colon).
 3. Copy `conf/dnscrypt.yaml.example → conf/dnscrypt.yaml` if you use DNSCrypt.
 
-The dashboard is then reached at `https://adguardhome.admin.lorenzopieri.dev`
-via the Traefik file route (`services/traefik/config/adguardhome.yaml`).
+The scaffold already binds the **admin UI** to `172.50.0.1:3080` (Traefik-only),
+keeps **DNS on `:53`**, and carries the `*.admin.lorenzopieri.dev → .254`
+rewrites — so no setup wizard is needed. The dashboard is then reached at
+`https://adguardhome.admin.lorenzopieri.dev` via the Traefik file route
+(`services/traefik/config/adguardhome.yaml`).
